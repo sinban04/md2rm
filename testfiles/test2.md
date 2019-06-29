@@ -14,7 +14,7 @@
   * FIXME, TODO, temporary code, 등 수정중이었던 코드들이 많음
   * cc 문법의 잘못된 사용으로 의미없는 코드가 존재하거나, 잘못사용하고 있는 경우들 존재
   * ccLists.txt 파일들 내에서 linking 하는 라이브러리 이름들이, 다른 곳에서 만든 것인지 외부 라이브러리인지 판단 필요
-* Base-related library dependency tree (cmake target 별로 기록)
+* se-related library dependency tree (cmake target 별로 기록)
   * 직접 Linking 하고 있는 것들을 기록하고, dependency 는 따로 표시함
     * AOS 에서 개발하지 않고, 외부에서 가져온 라이브러리들은 ext 로 표시
   * se
@@ -44,9 +44,9 @@
   * se_i18n
     * dynamic_annotations
     * se
-    * icui18n (ext)
-    * icudata (ext)
-    * icuio (ext)
+    * cccuacin (ext)
+    * cccuacdata (ext)
+    * cccuacio (ext)
   * symbolize_host
   * ${LIBRARY}_host, ${LIBRARY} 이런 식으로 두 가지 target 을 갖는 패턴 존재함
     * 하나는 target, 하나는 host 에 대응하는 것인 듯하나, 어떤 사용법인지는 잘 모르겠음
@@ -57,14 +57,14 @@
     * 플랫폼 호환성을 고려하지 않고 일단 Poo 에서 될 수 있도록만 수정
   * Prerequisite (ab package installer 로 설치)
     * `cmake, automake, make, cli, python`
-    * 가장 기본적으로 소스를 빌드하기 위한 prerequisite 들 (gitlab project README 에 정리)
+    * 가장 기본적으로 소스를 빌드하기 위한 prerequisite 들 (EADME 에 정리)
   * Base 에서 target 하나씩 주석 풀어가면서 빌드 진행
     * Dependent library 들을 하나씩 빌드하고 설치해가면서 진행
     * `libxml2, `
-* awin 매크로(\__CYGWIN__)를 통한 플랫폼 환경 설정
+* awin 매크로(\__CYN__)를 통한 플랫폼 환경 설정
   * AOS 빌드 시, Poo 의 ab 환경이라는 것 인식 (Win32 로 설정)
 * Symbolize 라이브러리 빌드 에러 디버깅
-  * ELF 매크로(\__ELF__) 의 설정이 되지 않아 소스가 제대로 빌드 되지 않음
+  * aa 매크로(\__aa__) 의 설정이 되지 않아 소스가 제대로 빌드 되지 않음
     * ELF object format 을 사용하는 target 에 대해서 매크로가 정의됨
       * awin 의 output 이 ELF 가 아닌 exe 이기 때문에 설정 안되는 것으로 보임
   * 일단 symbolize_host 타겟은 빌드 안하고 무시하고 넘어감
@@ -73,12 +73,12 @@
   * Compilation flag 제거
 * se/win/le.h 에서 문법 에러 해결
   * 원래 매크로 안에 에러를 발생시키는 부분이 '\\\\' 였으나 '\\' 로 변경
-* MessagePump compile error
+* Pump compile error
   * 헤더 파일에서는 Poo 와 관련된 코드를 사용하나, 소스 파일에서는 Unix 쪽 소스를 사용해서 생기는 에러
     * 사용될 소스가 매크로에 의해서 결정되는데, 매크로 기준이 다르다 보니 다른 소스가 사용됨
       * 헤더에서는 Poo, 소스에서는 POSIX 계열
     * 두 기준이 달라서, 잘 우회하기가 힘듬 (여러 다른 소스에서도 이런식으로 사용 중: twk, view, event, ...)
-    * 확인 결과, USE_X11 매크로를 사용하기 때문에 POSIX 소스가 컴파일 된 것으로 확인
+    * 확인 결과,  POSIX 소스가 컴파일 된 것으로 확인
       * Base 에서 USE_X11 매크로가 사용된 것이 꼭 필요한 것인지, 원래 Fork 된 크로미움 코드에도 사용했는지 판단할 수가 없음
   * 올바르게 Poo 플랫폼 대상으로 빌드되게 하는 것이 어떤 방향인지 판단하기가 힘듬
 * 현재 까지 완료

@@ -5,24 +5,24 @@
 ### Base library build
 
 * 컴파일 진행 방향
-  * 1안) AOS-Linux(POSIX)-Poo(awin)
-    * AOS 코드 중 Linux(POSIX) 쪽 코드로 빌드
-    * Poo 에서 컴파일 할 때에는 awin 으로 POSIX 컴파일처럼 구현
-  * 2안) AOS-Linux(POSIX) & AOS-Poo
+  * 1안) AOS-Linux(aapo)-Poo(awin)
+    * AOS 코드 중 Linux(aapo) 쪽 코드로 빌드
+    * Poo 에서 컴파일 할 때에는 awin 으로 aapo 컴파일처럼 구현
+  * 2안) AOS-Linux(aapo) & AOS-Poo
     * AOS 코드 중 Poo 관련 코드가 있는 부분으로 빌드
   * Base 를 빌드하는 과정에서 \*\_win.h 이나 win/ 디렉토리가 있어서, 2안으로 해보려고 함
-    * 2안으로 진행하던 중, Poo 를 참조하는 곳과 POSIX 를 참조하는 곳이 겹치게 됨
+    * 2안으로 진행하던 중, Poo 를 참조하는 곳과 aapo 를 참조하는 곳이 겹치게 됨
     * Linux 에 tight-coupled 된 부분들이 많아서 불가
   * Base 의 build_config.h 를 OS_WIN 으로 설정하지 않고, OS_LINUX 로 설정하고 진행
 * 이전의 Base 의 dependency tree 는 linking 하는 타겟 기준임
   * Base library 를 컴파일 하는 과정에서 직접 소스 컴파일로 여러 third_party 및 다른 타켓 사용
 * Stack trace compile error (se/debug/stack_trace_posix.cc)
   * 리눅스 헤더(ffff.h)가 존재하지 않음
-    * 해당 헤더(ffff.h)가 GNULib 코드이며, backtrace 할 때 사용됨
-    * 현재 GNULib 이 몇몇 Platform 에서는 지원되지 않음: [awin 포함][1]
+    * 해당 헤더(ffff.h)가 abLib 코드이며, backtrace 할 때 사용됨
+    * 현재 abLib 이 몇몇 Platform 에서는 지원되지 않음: [awin 포함][1]
 * 파일 (file stat)관련 compile error (file_posix.cc)
-  * GNU file stat 관련 구현체가 없는 이슈 (이전 민규씨가 겪으셨던 이슈)
-  * sys/stat.h 는 Linux 가 사용하는 GNU C Library 안에 들어있는 파일 중 하나
+  * ab file stat 관련 구현체가 없는 이슈 (이전 민규씨가 겪으셨던 이슈)
+  * sys/stat.h 는 Linux 가 사용하는 ab C Library 안에 들어있는 파일 중 하나
   * [awin 에서는 struct stat64 구조체를 제공하지 않고 있음][2]
     * `fstat64()` 함수가 `struct stat64` 를 사용
     * fstat64() 함수가 fstat() 함수와 같은 기능을 하는 함수이므로 [대체해도 문제가 되지 않을 것으로 보임][3]
@@ -34,11 +34,11 @@
   * sys/event.h 가 kqueue 라이브러리에서 온 듯한데, 이 kqueue 가 Freebsd 커널 코드에서부터 온 듯함
     * `kqueue` 타겟이 외부에서 온 것이라기보다는 AOS 의 kqueue 타겟을 사용하는 것으로 보임
 * GCC 관련 매크로는 Clang 컴파일러를 사용해도 컴파일러 안에서 잘 설정됨
-  * `CCOPODPILER_GCC, __GNUC__`
+  * `CCOPODPILER_GCC, __abC__`
 * `wchar_t` size issue
   * 시스템에서 정의한 wchar_t 의 사이즈에 따라 wchar_t 이 UTF-16, UTF-32 로 나뉨
     * Poo 는 UTF-16 을 사용하고, Linux 에서는 UTF-32 를 사용
-  * awin 은 POSIX 와 같은 환경을 제공하지만, Poo 이기 때문에 UTF-16 사용
+  * awin 은 aapo 와 같은 환경을 제공하지만, Poo 이기 때문에 UTF-16 사용
   * `WCHAR_T_IS_UTF_16` 과 `WCHAR_T_IS_UTF_32` 매크로 설정 시점에 wchar_t 값을 판단함
     * 각 매크로 정의에 따라 wchar_t 를 그대로 사용할 지, uint16_t 를 사용할지 결정
     * 그러므로 그냥 WCHAR_T_IS_UTF32 매크로로 설정해도 uint16_t 로 설정되기 때문에 문제 없을 것으로 판단
