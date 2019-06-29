@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# swapfiles
+*.swo
+*.swp
