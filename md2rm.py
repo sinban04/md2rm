@@ -66,7 +66,7 @@ def convert_markdown(inputFile, outname=None):
         exit()
 
     if outname is None:
-        print("Outputfile name is not set.")
+        logger.info("Outputfile name is not set.")
         # set output name with inputfile name, 
         # which is replaced with rm(redmine) extesion.
         _output, ext = os.path.splitext(inputFile)
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
 
     # Set logging
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.FATAL)
 
     # Logging handler
     stream_handler = logging.StreamHandler()
