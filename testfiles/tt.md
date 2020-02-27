@@ -1,16 +1,8 @@
-# 24 d.
-
-## BFL debugging
-
 * BFL Porting on Debian
   * ppt2x 쪽에서 이상한 문법 에러 디버깅
   * 3rd Party Xerces library debian 기반 빌드용으로 변경
     * Xerces 가 바라보는 uncv library 관련 에러 발생
     * Debian 기반에서 빌드한 후, 문제없이 동작
-
-
-## Poo-version TA 설계
-
 * TA 와 CWM(CCOPOD) 분석
   * 프로세스 형태
     * TA 는 user application 으로 일반적으로 하나의 단일 프로세스로 구성 (background process 들 제외)
@@ -33,7 +25,6 @@
     * Linux 에서는 /dev/input/ 를 통해 user-level 에 input event 제공
   * Input_Libinput 을 통해 InputService 를 SingletonManagerFactory 가 받음 (CWM 과 같은 프로세스)
     * CWM 코드를 통해, TA 에게 이벤트 전달
-
 * Poo-version TA 구조
   * *AA* 와 같은 구조로, 가장 빠른 시간안에 구현 가능한 방법으로 진행
   * 크게 세 부분으로 구성

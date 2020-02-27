@@ -2,13 +2,11 @@
 
 Markdown to Redmine Converter
 
-## How to Build
-
-
-```
+## How to Use
 
 ```
-
+$ python md2rm.py --filename <inputfile>
+```
 
 ## License
 
