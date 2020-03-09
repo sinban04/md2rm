@@ -1,13 +1,15 @@
 #!/usr/bin/python
 
 import os
+import sys
+import codecs
 import argparse
 import logging
+import re
 
 
 # Global logger
 logger = logging.getLogger("md2rm")
-
 
 def convert_sharpsign(line):
     # Count the num of hashtag
@@ -41,22 +43,42 @@ def convert_asterisk(line):
     return line
 # end convert_asterisk 
 
-def interpret_line(line):
-    # Handle Heading in Markdown (2 ways: h#, ===== or ----- )
+def convert_emphasis(line):
+    return line
+# end convert_emphasis
+
+
+def convert_line(line):
+    line.rstrip()
+    # Convert Heading in Markdown (2 ways: h#, ===== or ----- )
     # Check 'sharpsign(#)' symbol
-    if line[0] is '#':
+    if line.startswith('#'):
         line = convert_sharpsign(line)
 
     # Check heading-indicating line
     # TODO: Impl heading-indicating line check
 
-    # Handle 'Asterisk(*)' symbol
-    # TODO: Impl conversion of asteroid 
-    if line[0] is '#' or line[0] is ' ':
+    # Convert 'Asterisk(*)' symbol
+    if line.startswith('#') or line.startswith(' '):
         line = convert_asterisk(line)
+
+    # Convert Emphasis
+    # TODO: Impl Emphasis conversion 
+
+    # Convert Italic
+    # TODO: Convert Italic conversion
+
+    # Convert Table
+    # TODO: Impl Table converting logic
+
+    # Convert HypberLink
+    # TODO: Impl Hypberlink conversion
+
+    # Convert 'Code' snippets
+    # TODO: Impl Code conversion
         
     return line
-# end interpret_line 
+# end convert_line 
 
 
 def convert_markdown(inputFile, outname=None):
@@ -90,10 +112,19 @@ def convert_markdown(inputFile, outname=None):
         # TODO: need to check the blank empty line
         line = f_in.readline()
 
-        # If it reaches the end of file, escape
+        # If it reaches the end of file(EOF), escape the loop
         if not line: 
             break
-        line = interpret_line(line)
+
+        # Standardize line endings
+        line = line.replace("\r\n", "\n")
+        line = line.replace("\r", "\n")
+
+        # TODO: replace tabs with spaces
+            
+
+        # convert line
+        line = convert_line(line)
 
         f_out.write(line)
        
@@ -127,6 +158,6 @@ if __name__ == '__main__':
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -%(message)s')
     
     logger.info("Program start")
-    convert_markdown(args.filename, args.outname)
+    sys.exit( convert_markdown(args.filename, args.outname) )
 
-
+    
