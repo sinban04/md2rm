@@ -38,8 +38,9 @@ def convert_asterisk(line):
         if line[index+1] is not ' ': # in this case, it's for emphasis
             return line
         
-    # Fill the previous blanks with asterisk: One asterisk for two blanks
-    line = '*' * (index/2) + line[index:]
+        # Fill the previous blanks with asterisk: One asterisk for two blanks
+        line = '*' * (index//2) + line[index:]
+
     return line
 # end convert_asterisk 
 
@@ -59,7 +60,7 @@ def convert_line(line):
     # TODO: Impl heading-indicating line check
 
     # Convert 'Asterisk(*)' symbol
-    if line.startswith('#') or line.startswith(' '):
+    if line.startswith('*') or line.startswith(' '):
         line = convert_asterisk(line)
 
     # Convert Emphasis
