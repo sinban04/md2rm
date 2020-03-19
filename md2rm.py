@@ -6,6 +6,8 @@ import codecs
 import argparse
 import logging
 import re
+import io
+
 
 
 # Global logger
@@ -82,7 +84,7 @@ def convert_line(line):
 # end convert_line 
 
 
-def convert_markdown(inputFile, outname=None):
+def convert_markdown(inputFile, outname=None, unicode_='utf8' ):
     # Check input file validity
     if not os.path.isfile(inputFile):
         logger.error("Input file is not valid.")
@@ -105,8 +107,8 @@ def convert_markdown(inputFile, outname=None):
 
 
     # Open the file for input and output
-    f_in = open(_input, "r")
-    f_out = open(_output, "w")
+    f_in = io.open(_input, 'r', encoding=unicode_)
+    f_out = io.open(_output, 'w', encoding=unicode_)
 
     while True:
         # Read the lines one by one
@@ -144,6 +146,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--filename", required=True, help="Input filename.")
     parser.add_argument("--outname", required=False, help="Output filename.")
+    parser.add_argument("--unicode", required=False, help="Unicode of input.")
 
     args = parser.parse_args()
 
@@ -159,6 +162,6 @@ if __name__ == '__main__':
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -%(message)s')
     
     logger.info("Program start")
-    sys.exit( convert_markdown(args.filename, args.outname) )
+    sys.exit( convert_markdown(args.filename, args.outname, args.unicode) )
 
     
